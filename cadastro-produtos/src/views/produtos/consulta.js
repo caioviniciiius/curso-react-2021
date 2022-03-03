@@ -1,7 +1,10 @@
 import React from "react";
 import ProdutoService from "../../app/produtoService";
+import { useNavigate } from "react-router-dom";
 
 export default class ConsultaProdutos extends React.Component {
+  // let navigate = useNavigate();
+
   state = {
     produtos: [],
   };
@@ -15,6 +18,11 @@ export default class ConsultaProdutos extends React.Component {
     const produtos = this.service.obterProdutos();
     this.setState({ produtos });
   }
+
+  preparaEditar = (sku) => {
+    console.log("sku para editar: ", sku);
+    this.props.navigate(`/cadastro-produtos/${sku}`);
+  };
 
   render() {
     return (
@@ -39,7 +47,15 @@ export default class ConsultaProdutos extends React.Component {
                     <th>{produto.sku}</th>
                     <th>{produto.preco}</th>
                     <th>{produto.fornecedor}</th>
-                    <th></th>
+                    <th>
+                      <button
+                        onClick={() => this.preparaEditar(produto.sku)}
+                        className="btn btn-primary"
+                      >
+                        Editar
+                      </button>
+                      <button className="btn btn-danger">Remover</button>
+                    </th>
                   </tr>
                 );
               })}
